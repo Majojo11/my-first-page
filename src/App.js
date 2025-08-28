@@ -1,23 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
+      <h1>👨‍💻 Equipo: 8</h1>
+      <h2>My First Page</h2>
+      <p>
+        Este es nuestro proyecto en React desarrollado en Visual Studio Code. Aquí
+        exploramos cómo funciona la estructura de un proyecto y cómo renderizar contenido
+        dinámico en la interfaz.
+      </p>
+      <p>
+        La meta es familiarizarnos con el flujo de trabajo de React,
+      </p>
     </div>
   );
 }
