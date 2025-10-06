@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Eventos</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen bg-gray-50 flex text-gray-700">
+
+<!-- Sidebar -->
+<aside class="w-64 bg-gray-100 h-full flex flex-col p-4 border-r border-gray-200">
+    <input type="text" placeholder="Buscar" class="mb-4 bg-gray-200 rounded-lg px-3 py-2 outline-none text-sm placeholder-gray-500">
+
+    <div class="grid grid-cols-2 gap-3 mb-6">
+    <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
+        <span class="text-2xl">👤</span>
+        Mi perfil
+    </button>
+    <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
+        <span class="text-2xl">📅</span>
+        Todos los eventos
+    </button>
+    <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
+        <span class="text-2xl">👥</span>
+        Amigos
+    </button>
+    <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
+        <span class="text-2xl">📊</span>
+        Estadísticas
+    </button>
+    </div>
+
+    <h3 class="font-semibold text-sm mb-2">Eventos</h3>
+    <div class="flex justify-between items-center mb-3">
+    <p class="text-sm text-gray-500 italic">Nuevo evento...</p>
+    <button id="newEventBtn" class="text-lg font-bold">+</button>
+    </div>
+
+    <ul class="text-sm space-y-2">
+    <li class="cursor-pointer hover:text-black text-gray-500">Evento 1</li>
+    <li class="cursor-pointer hover:text-black text-gray-500">Evento 2</li>
+    </ul>
+</aside>
+
+<!-- Main content -->
+<main class="flex-1 flex flex-col p-10 relative">
+    <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-extrabold">Fiesta Fin de año</h1>
+    <button id="addExpense" class="bg-gray-300 hover:bg-gray-400 w-10 h-10 rounded-full flex items-center justify-center text-2xl transition">+</button>
+    </div>
+
+    <div id="expensesList" class="space-y-8">
+    <div>
+        <h3 class="font-bold text-lg mb-2">• Mobiliario - <span class="font-bold">$3000.00</span></h3>
+        <ul class="ml-6 text-sm text-gray-500">
+        <li class="flex justify-between"><span>Usuario 1</span><span>$1500.00</span></li>
+        <li class="flex justify-between"><span>Usuario 2</span><span>$500.00</span></li>
+        <li class="flex justify-between"><span>Usuario 3</span><span>$1000.00</span></li>
+        </ul>
+    </div>
+
+    <div>
+        <h3 class="font-bold text-lg mb-2">• Bebidas - <span class="font-bold">$3000.00</span></h3>
+        <ul class="ml-6 text-sm text-gray-500">
+        <li class="flex justify-between"><span>Usuario 1</span><span>$1500.00</span></li>
+        <li class="flex justify-between"><span>Usuario 2</span><span>$500.00</span></li>
+        <li class="flex justify-between"><span>Usuario 3</span><span>$1000.00</span></li>
+        </ul>
+    </div>
+    </div>
+
+    <button id="generateReport" class="mt-auto bg-gray-300 text-gray-500 font-semibold py-3 rounded-xl hover:bg-gray-400 hover:text-gray-700 transition">
+    Generar reporte
+    </button>
+</main>
+
+<!-- Modal para crear evento -->
+<div id="eventModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-60 flex items-center justify-center z-50">
+    <div class="bg-gray-100 rounded-xl shadow-lg w-1/2 p-8 relative">
+    <button id="closeModal" class="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black">✕</button>
+    <h2 class="text-2xl font-bold mb-6">Nuevo Evento</h2>
+
+    <form id="eventForm" class="space-y-4">
+        <div>
+        <label class="block font-semibold text-gray-600 mb-1">Nombre de evento</label>
+        <input type="text" id="eventName" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
+        </div>
+        <div>
+        <label class="block font-semibold text-gray-600 mb-1">Descripción</label>
+        <input type="text" id="eventDesc" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
+        </div>
+        <div>
+        <label class="block font-semibold text-gray-600 mb-1">Usuarios</label>
+        <input type="text" id="eventUsers" placeholder="Ej: Juan, Ana, Pedro" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
+        </div>
+
+        <div class="flex justify-end mt-6">
+        <button type="submit" class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">Crear Evento</button>
+        </div>
+    </form>
+    </div>
+</div>
+
+<script>
+    // Botones
+    const newEventBtn = document.getElementById("newEventBtn");
+    const eventModal = document.getElementById("eventModal");
+    const closeModal = document.getElementById("closeModal");
+    const eventForm = document.getElementById("eventForm");
+
+    // Abrir modal
+    newEventBtn.addEventListener("click", () => {
+    eventModal.classList.remove("hidden");
+    });
+
+    // Cerrar modal
+    closeModal.addEventListener("click", () => {
+    eventModal.classList.add("hidden");
+    });
+
+    // Crear evento
+    eventForm.addEventListener("submit", (e) => {
+e.preventDefault();
+    const name = document.getElementById("eventName").value.trim();
+    const desc = document.getElementById("eventDesc").value.trim();
+
+    if (name === "") {
+        alert("Por favor, ingresa un nombre de evento.");
+        return;
+    }
+
+    const eventList = document.querySelector("aside ul");
+    const newLi = document.createElement("li");
+    newLi.textContent = name;
+    newLi.className = "cursor-pointer hover:text-black text-gray-500";
+    eventList.appendChild(newLi);
+
+    eventModal.classList.add("hidden");
+    eventForm.reset();
+
+    alert(`✅ Evento "${name}" creado correctamente`);
+    });
+
+// Botón para agregar nueva categoría de gasto
+const addExpenseBtn = document.getElementById("addExpense");
+    const expensesList = document.getElementById("expensesList");
+
+    addExpenseBtn.addEventListener("click", () => {
+    const newExpense = document.createElement("div");
+    newExpense.innerHTML = `
+        <h3 class="font-bold text-lg mb-2">• Nuevo gasto - <span class="font-bold">$0.00</span></h3>
+        <ul class="ml-6 text-sm text-gray-500">
+        <li class="flex justify-between"><span>Usuario 1</span><span>$0.00</span></li>
+        <li class="flex justify-between"><span>Usuario 2</span><span>$0.00</span></li>
+        <li class="flex justify-between"><span>Usuario 3</span><span>$0.00</span></li>
+        </ul>
+    `;
+    expensesList.appendChild(newExpense);
+    });
+
+    // Botón para generar reporte
+    const reportBtn = document.getElementById("generateReport");
+    reportBtn.addEventListener("click", () => {
+    alert("📄 Reporte generado correctamente (aquí podrías descargar un PDF o ver un resumen).");
+    });
+</script>
+
+</body>
+</html>
