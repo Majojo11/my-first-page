@@ -105,29 +105,6 @@
     </div>
 </div>
 
-<!--Modal para nuevo gasto-->
-<div id="UpdateExpense" class="hidden fixed inset-0 bg-gray-800 bg-opacity-60 flex items-center justify-center z-50">
-    <div class="bg-gray-100 rounded-xl shadow-lg w-1/2 p-8 relative">
-        <button id="closeModalUpdate" class="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black">✕</button>
-        <h2 class="text-2xl font-bold mb-6">Nuevo Gasto</h2>
-    
-        <form id="eventForm" class="space-y-4">
-            <div>
-            <label class="block font-semibold text-gray-600 mb-1">Nombre del gasto</label>
-            <input type="text" id="ExpenseName" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
-            </div>
-            <div>
-            <label class="block font-semibold text-gray-600 mb-1">Usuarios</label>
-            <input type="text" id="ExpenseUsers" placeholder="Ej: Juan, Ana, Pedro" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
-            </div>
-    
-            <div class="flex justify-end mt-6">
-            <button type="submit" class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">Agregar gasto</button>
-            </div>
-        </form>
-        </div>
-</div>
-
 <script>
     // Botones
     const newEventBtn = document.getElementById("newEventBtn");
@@ -144,59 +121,6 @@
     // Cerrar modal nuevo evento
     closeModal.addEventListener("click", () => {
     eventModal.classList.add("hidden");
-    });
-
-    // Botones y elementos del modal de gasto
-    const addExpenseBtn = document.getElementById("addExpense");
-    const updateExpenseModal = document.getElementById("UpdateExpense");
-    const closeModalUpdate = document.getElementById("closeModalUpdate");
-    const expenseForm = updateExpenseModal.querySelector("form"); // formulario dentro del modal
-    const expensesList = document.getElementById("expensesList"); 
-
-    // Abrir modal de gasto
-    addExpenseBtn.addEventListener("click", () => {
-        updateExpenseModal.classList.remove("hidden");
-    });
-
-    // Cerrar modal de gasto
-    closeModalUpdate.addEventListener("click", () => {
-        updateExpenseModal.classList.add("hidden");
-        expenseForm.reset();
-    });
-
-    // Crear gasto al enviar el formulario
-    expenseForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const name = document.getElementById("ExpenseName").value.trim();
-        const usersText = document.getElementById("ExpenseUsers").value.trim();
-
-        if (name === "") {
-            alert("Por favor, ingresa un nombre para el gasto.");
-            return;
-        }
-
-        // Convertir usuarios separados por coma en lista
-        const users = usersText ? usersText.split(",").map(u => u.trim()) : [];
-
-        // Crear un div de gasto nuevo
-        const newExpense = document.createElement("div");
-        newExpense.innerHTML = `
-            <h3 class="font-bold text-lg mb-2">• ${name} - <span class="font-bold">$0.00</span></h3>
-            <p class="text-sm italic text-gray-500 mb-1">${desc}</p>
-            <ul class="ml-6 text-sm text-gray-500">
-                ${users.map(u => `<li class="flex justify-between"><span>${u}</span><span>$0.00</span></li>`).join('')}
-            </ul>
-        `;
-
-        // Agregar al contenedor de gastos
-        expensesList.appendChild(newExpense);
-
-        // Cerrar modal y limpiar formulario
-        updateExpenseModal.classList.add("hidden");
-        expenseForm.reset();
-
-        alert(`Gasto "${name}" agregado correctamente`);
     });
 
     // Crear evento
