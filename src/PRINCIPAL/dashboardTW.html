@@ -13,22 +13,18 @@
     <input type="text" placeholder="Buscar" class="mb-4 bg-gray-200 rounded-lg px-3 py-2 outline-none text-sm placeholder-gray-500">
 
     <div class="grid grid-cols-2 gap-3 mb-6">
-    <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
-        <span class="text-2xl">👤</span>
-        Mi perfil
-    </button>
-    <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
-        <span class="text-2xl">📅</span>
-        Todos los eventos
-    </button>
-    <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
-        <span class="text-2xl">👥</span>
-        Amigos
-    </button>
-    <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
-        <span class="text-2xl">📊</span>
-        Estadísticas
-    </button>
+        <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
+            <span class="text-2xl">👤</span> Mi perfil
+        </button>
+        <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
+            <span class="text-2xl">📅</span> Todos los eventos
+        </button>
+        <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
+            <span class="text-2xl">👥</span> Amigos
+        </button>
+        <button class="bg-gray-200 rounded-xl py-4 flex flex-col items-center justify-center text-sm font-medium hover:bg-gray-300 transition">
+            <span class="text-2xl">📊</span> Estadísticas
+        </button>
     </div>
 
     <h3 class="font-semibold text-sm mb-2">Eventos</h3>
@@ -40,126 +36,191 @@
         </div>
     </div>
 
-    <ul class="text-sm space-y-2">
-    <li class="cursor-pointer hover:text-black text-gray-500">Evento 1</li>
-    <li class="cursor-pointer hover:text-black text-gray-500">Evento 2</li>
+    <ul id="eventList" class="text-sm space-y-2">
+        <!-- Eventos aquí -->
     </ul>
 </aside>
 
 <!-- Main content -->
 <main class="flex-1 flex flex-col p-10 relative">
     <div class="flex justify-between items-center mb-8">
-    <h1 class="text-3xl font-extrabold">Fiesta Fin de año</h1>
-    <button id="addExpense" class="bg-gray-300 hover:bg-gray-400 w-10 h-10 rounded-full flex items-center justify-center text-2xl transition">+</button>
+        <h1 id="eventTitle" class="text-3xl font-extrabold">Selecciona un evento</h1>
+        <button id="addExpenseBtn" class="bg-gray-300 hover:bg-gray-400 w-10 h-10 rounded-full flex items-center justify-center text-2xl transition hidden">+</button>
     </div>
 
-    <div id="expensesList" class="space-y-8">
-    <div>
-        <h3 class="font-bold text-lg mb-2">• Mobiliario - <span class="font-bold">$3000.00</span></h3>
-        <ul class="ml-6 text-sm text-gray-500">
-        <li class="flex justify-between"><span>Usuario 1</span><span>$1500.00</span></li>
-        <li class="flex justify-between"><span>Usuario 2</span><span>$500.00</span></li>
-        <li class="flex justify-between"><span>Usuario 3</span><span>$1000.00</span></li>
-        </ul>
-    </div>
+    <div id="expensesList" class="space-y-8"></div>
 
-    <div>
-        <h3 class="font-bold text-lg mb-2">• Bebidas - <span class="font-bold">$3000.00</span></h3>
-        <ul class="ml-6 text-sm text-gray-500">
-        <li class="flex justify-between"><span>Usuario 1</span><span>$1500.00</span></li>
-        <li class="flex justify-between"><span>Usuario 2</span><span>$500.00</span></li>
-        <li class="flex justify-between"><span>Usuario 3</span><span>$1000.00</span></li>
-        </ul>
-    </div>
-    </div>
-
-    <button id="generateReport" class="mt-auto bg-gray-300 text-gray-500 font-semibold py-3 rounded-xl hover:bg-gray-400 hover:text-gray-700 transition">
-    Generar reporte
+    <button id="generateReport" class="mt-auto bg-gray-300 text-gray-500 font-semibold py-3 rounded-xl hover:bg-gray-400 hover:text-gray-700 transition hidden">
+        Generar reporte
     </button>
 </main>
 
 <!-- Modal para crear evento -->
 <div id="eventModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-60 flex items-center justify-center z-50">
     <div class="bg-gray-100 rounded-xl shadow-lg w-1/2 p-8 relative">
-    <button id="closeModal" class="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black">✕</button>
-    <h2 class="text-2xl font-bold mb-6">Nuevo Evento</h2>
+        <button id="closeModal" class="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black">✕</button>
+        <h2 class="text-2xl font-bold mb-6">Nuevo Evento</h2>
 
-    <form id="eventForm" class="space-y-4">
-        <div>
-        <label class="block font-semibold text-gray-600 mb-1">Nombre de evento</label>
-        <input type="text" id="eventName" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
-        </div>
-        <div>
-        <label class="block font-semibold text-gray-600 mb-1">Descripción</label>
-        <input type="text" id="eventDesc" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
-        </div>
-        <div>
-        <label class="block font-semibold text-gray-600 mb-1">Usuarios</label>
-        <input type="text" id="eventUsers" placeholder="Ej: Juan, Ana, Pedro" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
-        </div>
+        <form id="eventForm" class="space-y-4">
+            <div>
+                <label class="block font-semibold text-gray-600 mb-1">Nombre de evento</label>
+                <input type="text" id="eventName" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
+            </div>
+            <div>
+                <label class="block font-semibold text-gray-600 mb-1">Descripción</label>
+                <input type="text" id="eventDesc" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
+            </div>
+            <div>
+                <label class="block font-semibold text-gray-600 mb-1">Usuarios</label>
+                <input type="text" id="eventUsers" placeholder="Ej: Juan, Ana, Pedro" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
+            </div>
 
-        <div class="flex justify-end mt-6">
-        <button type="submit" class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">Crear Evento</button>
-        </div>
-    </form>
+            <div class="flex justify-end mt-6">
+                <button type="submit" class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">Crear Evento</button>
+            </div>
+        </form>
     </div>
 </div>
 
+<!-- Modal de gasto -->
+<div id="modalExpense" class="hidden fixed inset-0 bg-gray-800 bg-opacity-60 flex items-center justify-center z-50">
+    <div class="bg-gray-200 rounded-lg shadow-lg p-8 w-1/3 relative">
+        <button id="closeExpense" class="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black">✕</button>
+        <h2 class="font-bold text-gray-800 mb-4">Nuevo gasto</h2>
+
+        <form id="expenseForm" class="space-y-4">
+            <div>
+                <label class="block font-semibold text-gray-600 mb-1">Nombre del gasto</label>
+                <input type="text" id="expenseName" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none">
+            </div>
+            <div>
+                <label class="block font-semibold text-gray-600 mb-1">Monto total</label>
+                <input type="number" id="expenseAmount" class="w-full bg-gray-300 rounded-lg px-3 py-2 outline-none" min="0">
+            </div>
+            <div>
+                <label class="block font-semibold text-gray-600 mb-2">Selecciona quiénes participan</label>
+                <div id="userCheckboxes" class="space-y-2"></div>
+            </div>
+
+            <div class="flex justify-end mt-6">
+                <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-gray-600 transition">Agregar gasto</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <script>
-    // Botones
+    let eventos = [];
+    let eventoActual = null;
+
     const newEventBtn = document.getElementById("newEventBtn");
     const eventModal = document.getElementById("eventModal");
     const closeModal = document.getElementById("closeModal");
     const eventForm = document.getElementById("eventForm");
+    const eventList = document.getElementById("eventList");
 
+    const addExpenseBtn = document.getElementById("addExpenseBtn");
+    const modalExpense = document.getElementById("modalExpense");
+    const closeExpense = document.getElementById("closeExpense");
+    const expenseForm = document.getElementById("expenseForm");
+    const userCheckboxes = document.getElementById("userCheckboxes");
+
+    const expensesList = document.getElementById("expensesList");
+    const eventTitle = document.getElementById("eventTitle");
+    const reportBtn = document.getElementById("generateReport");
 
     // Abrir modal nuevo evento
-    newEventBtn.addEventListener("click", () => {
-    eventModal.classList.remove("hidden");
-    });
-
-    // Cerrar modal nuevo evento
-    closeModal.addEventListener("click", () => {
-    eventModal.classList.add("hidden");
-    });
+    newEventBtn.addEventListener("click", () => eventModal.classList.remove("hidden"));
+    closeModal.addEventListener("click", () => eventModal.classList.add("hidden"));
 
     // Crear evento
     eventForm.addEventListener("submit", (e) => {
-e.preventDefault();
-    const name = document.getElementById("eventName").value.trim();
-    const desc = document.getElementById("eventDesc").value.trim();
+        e.preventDefault();
+        const name = eventName.value.trim();
+        const desc = eventDesc.value.trim();
+        const users = eventUsers.value.split(",").map(u => u.trim()).filter(u => u !== "");
 
-    if (name === "") {
-        alert("Por favor, ingresa un nombre de evento.");
-        return;
+        if (!name || users.length === 0) {
+            alert("Debes ingresar un nombre y al menos un usuario.");
+            return;
+        }
+
+        const newEvent = { name, desc, users, expenses: [] };
+        eventos.push(newEvent);
+
+        const li = document.createElement("li");
+        li.textContent = name;
+        li.className = "cursor-pointer hover:text-black text-gray-500";
+        li.addEventListener("click", () => abrirEvento(newEvent));
+        eventList.appendChild(li);
+
+        eventModal.classList.add("hidden");
+        eventForm.reset();
+    });
+
+    function abrirEvento(evento) {
+        eventoActual = evento;
+        eventTitle.textContent = evento.name;
+        addExpenseBtn.classList.remove("hidden");
+        reportBtn.classList.remove("hidden");
+        mostrarGastos();
     }
 
-    const eventList = document.querySelector("aside ul");
-    const newLi = document.createElement("li");
-    newLi.textContent = name;
-    newLi.className = "cursor-pointer hover:text-black text-gray-500";
-    eventList.appendChild(newLi);
-
-    eventModal.classList.add("hidden");
-    eventForm.reset();
-
-    alert(`Evento "${name}" creado correctamente`);
-    });
-
-    // Botón para generar reporte
-    const reportBtn = document.getElementById("generateReport");
-    reportBtn.addEventListener("click", () => {
-    alert("📄 Reporte generado correctamente (aquí podrías descargar un PDF o ver un resumen).");
-    });
-
-    // Botón para eliminar evento
-    const deleteEventBtn = document.getElementById("deleteEventBtn");
-        deleteEventBtn.addEventListener("click", () => {
-            const confirmar = confirm("¿Seguro que quieres eliminar este evento?");
-            if (confirmar) {
-                alert("Evento eliminado ✅");
-            }
+    // Abrir modal de gasto
+    addExpenseBtn.addEventListener("click", () => {
+        if (!eventoActual) return;
+        userCheckboxes.innerHTML = "";
+        eventoActual.users.forEach(user => {
+            const div = document.createElement("div");
+            div.innerHTML = `
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" value="${user}" class="accent-gray-500" />
+                    <span>${user}</span>
+                </label>`;
+            userCheckboxes.appendChild(div);
         });
+        modalExpense.classList.remove("hidden");
+    });
+
+    // Cerrar modal de gasto
+    closeExpense.addEventListener("click", () => modalExpense.classList.add("hidden"));
+
+    // Agregar gasto
+    expenseForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nombre = expenseName.value.trim();
+        const monto = parseFloat(expenseAmount.value);
+        const seleccionados = Array.from(userCheckboxes.querySelectorAll("input:checked")).map(c => c.value);
+
+        if (!nombre || isNaN(monto) || seleccionados.length === 0) {
+            alert("Completa todos los campos y selecciona al menos un usuario.");
+            return;
+        }
+
+        const montoPorPersona = monto / seleccionados.length;
+        const nuevoGasto = { nombre, monto, seleccionados, montoPorPersona };
+
+        eventoActual.expenses.push(nuevoGasto);
+        mostrarGastos();
+
+        modalExpense.classList.add("hidden");
+        expenseForm.reset();
+    });
+
+    function mostrarGastos() {
+        expensesList.innerHTML = "";
+        eventoActual.expenses.forEach(g => {
+            const div = document.createElement("div");
+            div.innerHTML = `
+                <h3 class="font-bold text-lg mb-2">• ${g.nombre} - <span class="font-bold">$${g.monto.toFixed(2)}</span></h3>
+                <ul class="ml-6 text-sm text-gray-500">
+                    ${g.seleccionados.map(u => `<li class="flex justify-between"><span>${u}</span><span>$${g.montoPorPersona.toFixed(2)}</span></li>`).join("")}
+                </ul>`;
+            expensesList.appendChild(div);
+        });
+    }
 </script>
+
 </body>
 </html>
